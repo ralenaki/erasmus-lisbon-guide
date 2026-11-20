@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lisbon Erasmus Guide - Student Events &amp; Tips</title>
+  <meta name="description" content="Student events board, live Lisbon weather, and first-week tips for Erasmus students in Lisbon." />
+  <meta property="og:title" content="Lisbon Erasmus Guide" />
+  <meta property="og:description" content="Events, live weather, and practical info for incoming students in Lisbon." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Lisbon Erasmus Guide",
+      "description": "Events board and city tips for Erasmus and international students in Lisbon.",
+      "inLanguage": "en"
+    }
+  </script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="brand">Lisbon<span>Guide</span></a>
+      <nav class="nav-links">
+        <a href="#events">Events</a>
+        <a href="#tips">Useful Tips</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div class="container intro-grid">
+        <div class="intro-left">
+          <h1>Student events &amp; city notes for Lisbon</h1>
+          <p class="subtitle">
+            A simple board of weekly walks, trips, and meetups for Erasmus students, plus a few practical things I'd want to know in week one.
+          </p>
+
+          <div class="search-box">
+            <input
+              type="search"
+              id="search-input"
+              placeholder="Search by keyword or area (e.g. Alfama, surf, Sintra)..."
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <aside class="weather-card" id="weather-card">
+          <div class="weather-header">
+            <span class="weather-city">Lisbon, Portugal</span>
+            <span class="weather-time" id="lisbon-time">Live weather</span>
+          </div>
+
+          <div class="weather-main" id="weather-main">
+            <p class="muted">Loading weather...</p>
+          </div>
+
+          <div class="weather-forecast" id="weather-forecast"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="events" class="section">
+      <div class="container">
+        <div class="events-top">
+          <div>
+            <h2>This Week's Events</h2>
+            <p id="results-count" class="muted">Showing all events</p>
+          </div>
+
+          <div class="filters">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="culture">Culture</button>
+            <button class="filter-btn" data-category="trips">Trips</button>
+            <button class="filter-btn" data-category="social">Social</button>
+            <button class="filter-btn" data-category="sports">Sports</button>
+            <button class="filter-btn" data-category="saved">Saved</button>
+          </div>
+        </div>
+
+        <div id="events-grid" class="events-grid"></div>
+      </div>
+    </section>
+
+    <section id="tips" class="section tips-bg">
+      <div class="container">
+        <h2>First-Week Notes</h2>
+        <p class="muted tips-sub">Quick stuff that saves time when you first arrive.</p>
+
+        <div class="tips-grid">
+          <article class="tip-card">
+            <h3>Navegante Pass</h3>
+            <p>
+              Get the monthly Navegante card as soon as you have your enrollment letter. It covers Metro, Carris buses/trams, and trains around the city.
+            </p>
+          </article>
+
+          <article class="tip-card">
+            <h3>Sunset spots</h3>
+            <p>
+              Miradouro de Santa Catarina (Adamastor) and Graça are the main student hangout spots before sunset. Much cheaper than bars in Bairro Alto.
+            </p>
+          </article>
+
+          <article class="tip-card">
+            <h3>Bring good shoes</h3>
+            <p>
+              Lisbon's white cobblestone pavements (calçada portuguesa) get really slippery after light rain, especially going downhill.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>Made by Ralena Rousiaki</p>
+      <p class="muted">Weather via <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
