@@ -2,7 +2,7 @@
 
 A lightweight, mobile-first web app built for international students arriving in Lisbon. It combines a filterable student events board, practical first-week city tips, and live local weather.
 
-**Live Demo:** [https://ralenaki.github.io/erasmus-lisbon-guide/]
+**Live Demo:** https://ralenaki.github.io/erasmus-lisbon-guide/
 
 ## Features
 - **Live Weather Integration:** Fetches real-time temperature and conditions in Lisbon from the public Open-Meteo REST API (`fetch` + JSON).
