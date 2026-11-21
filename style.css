@@ -26,6 +26,12 @@ body {
   line-height: 1.55;
 }
 
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
 .container {
   width: min(1040px, 92%);
   margin: 0 auto;
@@ -230,6 +236,11 @@ body {
   padding: 2.75rem 0;
 }
 
+#events,
+#tips {
+scroll-margin-top: 64px;
+}
+
 .section h2 {
   font-size: 1.35rem;
   margin-bottom: 0.2rem;
@@ -279,7 +290,7 @@ body {
 
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
   gap: 1.15rem;
 }
 
