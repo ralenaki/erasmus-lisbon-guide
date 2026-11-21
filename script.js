@@ -8,85 +8,126 @@ const events = [
     price: "Free",
     description: "Walk through Alfama with other incoming students, checking out azulejo tiles and viewpoints."
   },
-  {
-    id: 2,
-    title: "Sintra & Cabo da Roca Day Trip",
-    category: "trips",
-    date: "Sat, 09:00",
-    location: "Rossio Station",
-    price: "€15",
-    description: "Group train trip to Sintra in the morning and bus out to Cabo da Roca before sunset."
-  },
-  {
-    id: 3,
-    title: "International Dinner & Language Exchange",
-    category: "social",
-    date: "Fri, 19:30",
-    location: "Arroios",
-    price: "Free",
-    description: "Bring something simple to share, practice Portuguese or English, and meet people from other unis."
-  },
-  {
-    id: 4,
-    title: "Beginner Surf at Costa da Caparica",
-    category: "sports",
-    date: "Sun, 10:30",
-    location: "Praia de São João",
-    price: "€18",
-    description: "2-hour group surf session across the river. Board and wetsuit are included."
-  },
-  {
-    id: 5,
-    title: "LX Factory & Bookshop Walk",
-    category: "culture",
-    date: "Wed, 16:00",
-    location: "Alcântara",
-    price: "Free",
-    description: "Afternoon walk around LX Factory, Ler Devagar bookshop, and the local street art."
-  },
-  {
-    id: 6,
-    title: "Riverfront 5K Run",
-    category: "sports",
-    date: "Tue, 18:30",
-    location: "Cais do Sodré to Belém",
-    price: "Free",
-    description: "Easy-pace group run along the river with a coffee stop at the end."
-  },
-  {
-    id: 7,
-    title: "Sunset Hangout at Adamastor",
-    category: "social",
-    date: "Thu, 19:00",
-    location: "Miradouro de Santa Catarina",
-    price: "Free",
-    description: "Chill evening meetup with card games and music overlooking the bridge."
-  },
-  {
-    id: 8,
-    title: "Cascais Beach & Bike Afternoon",
-    category: "trips",
-    date: "Sun, 11:00",
-    location: "Cais do Sodré Train",
-    price: "€8 rental",
-    description: "Take the coastal train out to Cascais, rent bikes to Boca do Inferno, and stay at the beach."
-  }
+{
+  id: 2,
+  title: "Sintra & Cabo da Roca Day Trip",
+  category: "trips",
+  date: "Sat, 09:00",
+  location: "Rossio Station",
+  price: "€15",
+  description: "Group train trip to Sintra in the morning and bus out to Cabo da Roca before sunset."
+},
+{
+  id: 3,
+  title: "International Dinner & Language Exchange",
+  category: "social",
+  date: "Fri, 19:30",
+  location: "Arroios",
+  price: "Free",
+  description: "Bring something simple to share, practice Portuguese or English, and meet people from other unis."
+},
+{
+  id: 4,
+  title: "Beginner Surf at Costa da Caparica",
+  category: "sports",
+  date: "Sun, 10:30",
+  location: "Praia de São João",
+  price: "€18",
+  description: "2-hour group surf session across the river. Board and wetsuit are included."
+},
+{
+  id: 5,
+  title: "LX Factory & Bookshop Walk",
+  category: "culture",
+  date: "Wed, 16:00",
+  location: "Alcântara",
+  price: "Free",
+  description: "Afternoon walk around LX Factory, Ler Devagar bookshop, and the local street art."
+},
+{
+  id: 6,
+  title: "Riverfront 5K Run",
+  category: "sports",
+  date: "Tue, 18:30",
+  location: "Cais do Sodré to Belém",
+  price: "Free",
+  description: "Easy-pace group run along the river with a coffee stop at the end."
+},
+{
+  id: 7,
+  title: "Sunset Hangout at Adamastor",
+  category: "social",
+  date: "Thu, 19:00",
+  location: "Miradouro de Santa Catarina",
+  price: "Free",
+  description: "Chill evening meetup with card games and music overlooking the bridge."
+},
+{
+  id: 8,
+  title: "Cascais Beach & Bike Afternoon",
+  category: "trips",
+  date: "Sun, 11:00",
+  location: "Cais do Sodré Train",
+  price: "€8 rental",
+  description: "Take the coastal train out to Cascais, rent bikes to Boca do Inferno, and stay at the beach."
+}
 ];
+
+const STORAGE_KEY = "lisbon_saved_events";
+
+function loadSavedIds() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const parsed = JSON.parse(raw || "[]");
+    if (!Array.isArray(parsed)) return [];
+    const validIds = new Set(events.map((ev) => ev.id));
+    return parsed.filter((id) => validIds.has(id));
+  } catch {
+    return [];
+  }
+}
+
+function persistSavedIds(ids) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+  } catch {
+    // Ignore storage errors (e.g. private browsing / quota exceeded)
+  }
+}
 
 let selectedCategory = "all";
 let searchTerm = "";
-let savedIds = JSON.parse(localStorage.getItem("lisbon_saved_events") || "[]");
+let savedIds = loadSavedIds();
 
 const grid = document.getElementById("events-grid");
 const countText = document.getElementById("results-count");
 const searchInput = document.getElementById("search-input");
 const filterBtns = document.querySelectorAll(".filter-btn");
+const savedCountEl = document.getElementById("saved-count");
+
+function updateSavedCount() {
+  if (savedCountEl) {
+    savedCountEl.textContent = String(savedIds.length);
+  }
+}
+
+function resetFilters() {
+  selectedCategory = "all";
+  searchTerm = "";
+  searchInput.value = "";
+  filterBtns.forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.category === "all");
+  });
+  renderEvents();
+}
 
 function renderEvents() {
+  updateSavedCount();
+
   const list = events.filter((ev) => {
     const matchCategory =
-      selectedCategory === "all" ||
-      (selectedCategory === "saved" ? savedIds.includes(ev.id) : ev.category === selectedCategory);
+    selectedCategory === "all" ||
+    (selectedCategory === "saved" ? savedIds.includes(ev.id) : ev.category === selectedCategory);
 
     const text = (ev.title + " " + ev.location + " " + ev.description + " " + ev.category).toLowerCase();
     const matchSearch = text.includes(searchTerm.trim().toLowerCase());
@@ -97,33 +138,42 @@ function renderEvents() {
   countText.textContent = list.length === 1 ? "Showing 1 event" : `Showing ${list.length} events`;
 
   if (list.length === 0) {
-    grid.innerHTML = `<div class="empty-msg">${
-      selectedCategory === "saved"
-        ? "You haven't saved any events yet."
-        : "No events found for that search."
-    }</div>`;
+    const isEmptySaved = selectedCategory === "saved" && savedIds.length === 0;
+    const message = isEmptySaved
+    ? "You haven't saved any events yet."
+    : "No events found for that search.";
+    const resetLabel = isEmptySaved ? "Show all events" : "Reset filters";
+
+    grid.innerHTML = `
+    <div class="empty-msg">
+    <p>${message}</p>
+    <button type="button" class="filter-btn reset-btn" style="margin-top: 0.75rem;">
+    ${resetLabel}
+    </button>
+    </div>
+    `;
     return;
   }
 
   grid.innerHTML = list
-    .map((ev) => {
-      const isSaved = savedIds.includes(ev.id);
-      return `
-        <article class="event-card">
-          <div class="card-top">
-            <span class="tag">${ev.category}</span>
-            <span class="price">${ev.price}</span>
-          </div>
-          <h3>${ev.title}</h3>
-          <p class="meta">${ev.date} · ${ev.location}</p>
-          <p class="desc">${ev.description}</p>
-          <button class="save-btn ${isSaved ? "saved" : ""}" data-id="${ev.id}">
-            ${isSaved ? "Saved" : "Save"}
-          </button>
-        </article>
-      `;
-    })
-    .join("");
+  .map((ev) => {
+    const isSaved = savedIds.includes(ev.id);
+    return `
+    <article class="event-card">
+    <div class="card-top">
+    <span class="tag">${ev.category}</span>
+    <span class="price">${ev.price}</span>
+    </div>
+    <h3>${ev.title}</h3>
+    <p class="meta">${ev.date} · ${ev.location}</p>
+    <p class="desc">${ev.description}</p>
+    <button class="save-btn ${isSaved ? "saved" : ""}" data-id="${ev.id}">
+    ${isSaved ? "Saved" : "Save"}
+    </button>
+    </article>
+    `;
+  })
+  .join("");
 }
 
 filterBtns.forEach((btn) => {
@@ -141,6 +191,11 @@ searchInput.addEventListener("input", (e) => {
 });
 
 grid.addEventListener("click", (e) => {
+  if (e.target.closest(".reset-btn")) {
+    resetFilters();
+    return;
+  }
+
   const btn = e.target.closest(".save-btn");
   if (!btn) return;
 
@@ -151,7 +206,7 @@ grid.addEventListener("click", (e) => {
     savedIds.push(id);
   }
 
-  localStorage.setItem("lisbon_saved_events", JSON.stringify(savedIds));
+  persistSavedIds(savedIds);
   renderEvents();
 });
 
@@ -181,10 +236,10 @@ async function loadWeather() {
   const timeEl = document.getElementById("lisbon-time");
 
   const url =
-    "https://api.open-meteo.com/v1/forecast?latitude=38.7223&longitude=-9.1393" +
-    "&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,is_day" +
-    "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
-    "&timezone=Europe%2FLisbon&forecast_days=3";
+  "https://api.open-meteo.com/v1/forecast?latitude=38.7223&longitude=-9.1393" +
+  "&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,is_day" +
+  "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
+  "&timezone=Europe%2FLisbon&forecast_days=3";
 
   try {
     const res = await fetch(url);
@@ -204,16 +259,16 @@ async function loadWeather() {
     timeEl.textContent = `Local time ${lisbonClock}`;
 
     mainBox.innerHTML = `
-      <div class="weather-icon-wrap">
-        <img src="${iconUrl}" alt="${info.label}" />
-      </div>
-      <div>
-        <div class="weather-temp">${Math.round(current.temperature_2m)}°C</div>
-        <div class="weather-desc">${info.label}</div>
-        <div class="weather-extra">
-          Feels like ${Math.round(current.apparent_temperature)}°C · Wind ${Math.round(current.wind_speed_10m)} km/h
-        </div>
-      </div>
+    <div class="weather-icon-wrap">
+    <img src="${iconUrl}" alt="${info.label}" />
+    </div>
+    <div>
+    <div class="weather-temp">${Math.round(current.temperature_2m)}°C</div>
+    <div class="weather-desc">${info.label}</div>
+    <div class="weather-extra">
+    Feels like ${Math.round(current.apparent_temperature)}°C · Wind ${Math.round(current.wind_speed_10m)} km/h
+    </div>
+    </div>
     `;
 
     const days = data.daily.time;
@@ -223,11 +278,11 @@ async function loadWeather() {
         const max = Math.round(data.daily.temperature_2m_max[i]);
         const min = Math.round(data.daily.temperature_2m_min[i]);
         return `
-          <div class="forecast-day">
-            <div class="forecast-day-name">${getDayName(day, i)}</div>
-            <img src="https://openweathermap.org/img/wn/${dayInfo.icon}.png" alt="${dayInfo.label}" />
-            <div class="forecast-temps">${max}° <span>/ ${min}°</span></div>
-          </div>
+        <div class="forecast-day">
+        <div class="forecast-day-name">${getDayName(day, i)}</div>
+        <img src="https://openweathermap.org/img/wn/${dayInfo.icon}.png" alt="${dayInfo.label}" />
+        <div class="forecast-temps">${max}° <span>/ ${min}°</span></div>
+        </div>
         `;
       })
       .join("");
