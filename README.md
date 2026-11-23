@@ -5,9 +5,7 @@ A mobile-first guide for Erasmus students arriving in Lisbon, with a searchable 
 **Live Demo:** [Open LisbonGuide](https://ralenaki.github.io/erasmus-lisbon-guide/)
 
 <p align="center">
-  <img src="assets/desktop_preview.webp" alt="LisbonGuide desktop view with the events board and live weather" width="70%" align="top" />
-  &nbsp;
-  <img src="assets/mobile_preview.webp" alt="LisbonGuide mobile view with the weather card and event filters" width="23%" align="top" />
+  <img src="assets/readme_preview.webp" alt="LisbonGuide desktop and mobile screenshots, aligned at the top and bottom" width="100%" />
 </p>
 
 ## Features
@@ -34,7 +32,8 @@ Clone the repository and open `index.html` in your browser. No build step or API
 ```text
 ├── assets/
 │   ├── desktop_preview.webp
-│   └── mobile_preview.webp
+│   ├── mobile_preview.webp
+│   └── readme_preview.webp
 ├── index.html
 ├── script.js
 ├── style.css
