@@ -5,9 +5,9 @@ A mobile-first guide for Erasmus students arriving in Lisbon, with a searchable 
 **Live Demo:** [Open LisbonGuide](https://ralenaki.github.io/erasmus-lisbon-guide/)
 
 <p align="center">
-  <img src="assets/desktop_preview.webp" alt="LisbonGuide desktop view with the events board and live weather" width="70%" />
+  <img src="assets/desktop_preview.webp" alt="LisbonGuide desktop view with the events board and live weather" width="70%" align="top" />
   &nbsp;
-  <img src="assets/mobile_preview.webp" alt="LisbonGuide mobile view with the weather card and event filters" width="23%" />
+  <img src="assets/mobile_preview.webp" alt="LisbonGuide mobile view with the weather card and event filters" width="23%" align="top" />
 </p>
 
 ## Features
