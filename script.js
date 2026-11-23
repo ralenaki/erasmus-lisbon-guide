@@ -116,7 +116,9 @@ function resetFilters() {
   searchTerm = "";
   searchInput.value = "";
   filterBtns.forEach((btn) => {
-    btn.classList.toggle("active", btn.dataset.category === "all");
+    const isActive = btn.dataset.category === "all";
+    btn.classList.toggle("active", isActive);
+    btn.setAttribute("aria-pressed", String(isActive));
   });
   renderEvents();
 }
@@ -167,7 +169,7 @@ function renderEvents() {
     <h3>${ev.title}</h3>
     <p class="meta">${ev.date} · ${ev.location}</p>
     <p class="desc">${ev.description}</p>
-    <button class="save-btn ${isSaved ? "saved" : ""}" data-id="${ev.id}">
+    <button type="button" class="save-btn ${isSaved ? "saved" : ""}" data-id="${ev.id}" aria-pressed="${isSaved}" aria-label="${isSaved ? "Remove saved event" : "Save event"}: ${ev.title}">
     ${isSaved ? "Saved" : "Save"}
     </button>
     </article>
@@ -179,8 +181,11 @@ function renderEvents() {
 filterBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     selectedCategory = btn.dataset.category;
-    filterBtns.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
+    filterBtns.forEach((b) => {
+      const isActive = b === btn;
+      b.classList.toggle("active", isActive);
+      b.setAttribute("aria-pressed", String(isActive));
+    });
     renderEvents();
   });
 });

@@ -8,6 +8,7 @@
   <meta property="og:title" content="Lisbon Erasmus Guide" />
   <meta property="og:description" content="Events, live weather, and practical info for incoming students in Lisbon." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ralenaki.github.io/erasmus-lisbon-guide/" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,6 +20,7 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Lisbon Erasmus Guide",
+      "url": "https://ralenaki.github.io/erasmus-lisbon-guide/",
       "description": "Events board and city tips for Erasmus and international students in Lisbon.",
       "inLanguage": "en"
     }
@@ -48,6 +50,7 @@
             <input
               type="search"
               id="search-input"
+              aria-label="Search events by keyword or area"
               placeholder="Search by keyword or area (e.g. Alfama, surf, Sintra)..."
               autocomplete="off"
             />
@@ -78,16 +81,16 @@
           </div>
 
           <div class="filters">
-            <button class="filter-btn active" data-category="all">All</button>
-            <button class="filter-btn" data-category="culture">Culture</button>
-            <button class="filter-btn" data-category="trips">Trips</button>
-            <button class="filter-btn" data-category="social">Social</button>
-            <button class="filter-btn" data-category="sports">Sports</button>
-            <button class="filter-btn" data-category="saved">Saved (<span id="saved-count">0</span>)</button>
+            <button type="button" class="filter-btn active" data-category="all" aria-pressed="true">All</button>
+            <button type="button" class="filter-btn" data-category="culture" aria-pressed="false">Culture</button>
+            <button type="button" class="filter-btn" data-category="trips" aria-pressed="false">Trips</button>
+            <button type="button" class="filter-btn" data-category="social" aria-pressed="false">Social</button>
+            <button type="button" class="filter-btn" data-category="sports" aria-pressed="false">Sports</button>
+            <button type="button" class="filter-btn" data-category="saved" aria-pressed="false">Saved (<span id="saved-count">0</span>)</button>
           </div>
         </div>
 
-        <div id="events-grid" class="events-grid"></div>
+        <div id="events-grid" class="events-grid" aria-live="polite"></div>
       </div>
     </section>
 
