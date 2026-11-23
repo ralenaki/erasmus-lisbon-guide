@@ -7,7 +7,7 @@ A mobile-first guide for Erasmus students arriving in Lisbon, with a searchable 
 <p align="center">
   <img src="assets/desktop_preview.webp" alt="CineFinder desktop view" width="76%" />
   &nbsp;
-  <img src="assets/mobile_preview.webp" alt="CineFinder mobile view" width="19.66%" />
+  <img src="assets/mobile_preview.webp" alt="CineFinder mobile view" width="22.17%" />
 </p>
 
 
